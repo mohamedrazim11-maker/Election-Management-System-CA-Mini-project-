@@ -6,12 +6,14 @@ struct Voter {
     char nic[13];
     int age;
 }; 
+struct Voter newVoter;
 void display();
 void voter_menu();
 void register_voter();  
 int check_voter_age(int day, int month, int year);
 void save_voter_data(struct Voter newvoter);
 void vote();
+
    
 
 
@@ -44,7 +46,6 @@ void voter_menu() {
 }
 
 void register_voter() {
-    struct Voter newVoter;
     int day, month, year;
 
     printf("\033[1;33m\n\n\t\t\tVOTER REGISTRATION\033[0m\n\n");
@@ -55,6 +56,7 @@ void register_voter() {
 
     printf("\033[1;34m\t\t\t12 Digit NIC Number :\033[0m ");
     scanf("%s", newVoter.nic);
+    
 
     printf("\033[1;34m\t\t\tDate Of Birth (Day Month Year):\033[0m ");
     scanf("%d %d %d", &day, &month, &year);
@@ -104,13 +106,12 @@ void vote() {
     printf("\033[1;34m\t\t\tEnter your NIC number to validate:\033[0m");
     scanf("%s", nic_check);
 
-    //check voter registered and not voted
     FILE *voters_file = fopen("voters.txt", "r");
     FILE *voted_file = fopen("voted.txt", "r");
     if (voters_file == NULL) {
 
         printf("\033[1;32m\t\t\t\t\tNo registered voters found.\033[0m\n");
-        voter_menu();
+        return;
     }
 
     // Check if NIC is available
@@ -124,7 +125,7 @@ void vote() {
 
     if (found!= 1) {
         printf("\033[1;031m\n\t\t\t\t\tYou are not a registered voter.\033[0m\n");
-        voter_menu();
+        register_voter();
     }
 
     // Check if NIC is already voted
@@ -133,7 +134,7 @@ void vote() {
             if (strstr(line, nic_check) != NULL) {
                 printf("\033[1;33m\n\t\t\t\t\tYou have already voted.\033[0m\n");
                 fclose(voted_file);
-                voter_menu();
+                return;
             }
         }
         fclose(voted_file);
@@ -144,7 +145,7 @@ void vote() {
     FILE *candidates_file = fopen("candi_data.txt", "r");
     if (candidates_file == NULL) {
         printf("\033[1;31m\t\t\t\t\tNo candidates have registered yet.\033[1;0m\n");
-        voter_menu();
+        return;
     }
     while (fgets(line, sizeof(line), candidates_file)) {
         printf("\t\t\t\t\t%s", line);
@@ -160,13 +161,12 @@ void vote() {
 
     if (votes_file == NULL || voted_record == NULL) {
         printf("\033[1;31m\t\t\t\t\tError .\033[0m\n");
-        voter_menu();
+        return;
     }
 
     fprintf(votes_file, "%d\n", candidate_number);
     fprintf(voted_record, "NIC: %s\n", nic_check);
     fclose(votes_file);
     fclose(voted_record);
-    printf("\n\t\t\t\t\t Succecessfully Voted!\n");
-    voter_menu();
+    printf("\033[1;32m\n\t\t\t\t\t Succecessfully Voted!\033[0m\n");
 }
