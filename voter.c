@@ -110,7 +110,7 @@ void vote() {
     if (voters_file == NULL) {
 
         printf("\033[1;32m\t\t\t\t\tNo registered voters found.\033[0m\n");
-        return;
+        voter_menu();
     }
 
     // Check if NIC is available
@@ -124,7 +124,7 @@ void vote() {
 
     if (found!= 1) {
         printf("\033[1;031m\n\t\t\t\t\tYou are not a registered voter.\033[0m\n");
-        return;
+        voter_menu();
     }
 
     // Check if NIC is already voted
@@ -133,7 +133,7 @@ void vote() {
             if (strstr(line, nic_check) != NULL) {
                 printf("\033[1;33m\n\t\t\t\t\tYou have already voted.\033[0m\n");
                 fclose(voted_file);
-                return;
+                voter_menu();
             }
         }
         fclose(voted_file);
@@ -144,7 +144,7 @@ void vote() {
     FILE *candidates_file = fopen("candi_data.txt", "r");
     if (candidates_file == NULL) {
         printf("\033[1;31m\t\t\t\t\tNo candidates have registered yet.\033[1;0m\n");
-        return;
+        voter_menu();
     }
     while (fgets(line, sizeof(line), candidates_file)) {
         printf("\t\t\t\t\t%s", line);
@@ -160,7 +160,7 @@ void vote() {
 
     if (votes_file == NULL || voted_record == NULL) {
         printf("\033[1;31m\t\t\t\t\tError .\033[0m\n");
-        return;
+        voter_menu();
     }
 
     fprintf(votes_file, "%d\n", candidate_number);
@@ -168,5 +168,5 @@ void vote() {
     fclose(votes_file);
     fclose(voted_record);
     printf("\n\t\t\t\t\t Succecessfully Voted!\n");
-    voter_menu();
+    voter_menu();
 }

@@ -69,10 +69,10 @@ void save_candidate_data(struct Candidate newCandidate) {
 
     if (fptr == NULL) {
         printf("\033[1;31m\t\t\t\t\tError !\033[0m\n");
-        return;
+        register_candidate();
     }
 
     fprintf(fptr, "Name: %s, District: %s, Party: %s, Number: %d\n", newCandidate.name,newCandidate.district, newCandidate.party, newCandidate.number);
     fclose(fptr);
-    printf("\n\t\t\t\t\tSaved Successfull !\n");
+    printf("\033[1;32m\n\t\t\t\t\tSaved Successfull !\033[0m\n");
 }

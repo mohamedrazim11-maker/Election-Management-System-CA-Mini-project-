@@ -88,8 +88,8 @@ void count_votes() {
     }
     fclose(votes_file);
 
-    printf("\n\n\t\t\t\t\t\t\tELECTION RESULTS\n");
-    printf("\t\t\t\t\t\t---------------------------\n");
+    printf("\033[1;31m\n\n\t\t\t\t\t\t\tELECTION RESULTS\033[0m\n");
+    printf("\t\t\t\t\t\t--------------------------------\n");
    
     // Display results and find the winner
     FILE *results_file = fopen("results.txt", "w");
@@ -168,4 +168,4 @@ void count_votes() {
         
             fclose(voter);    }
             official_menu();
- }
+ }
